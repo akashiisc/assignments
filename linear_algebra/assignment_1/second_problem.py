@@ -57,10 +57,11 @@ def convert_to_echelon_form_utility(M , start_row , start_column , end_row , end
     if first_non_zero_row_entry == -1:
         return convert_to_echelon_form_utility(M, start_row, start_column + 1, end_row, end_column , row_operations)
     elif first_non_zero_row_entry != start_row:
+        print M
         row_operations.append("SWITCH " + str(start_row) + " " + str(first_non_zero_row_entry))
         M = swap(M , start_row , first_non_zero_row_entry)
-
-    row_operations.append("MULTIPLY " + str(start_row) + str(1 / M[first_non_zero_row_entry][start_column]) + " " + str(start_row))
+        first_non_zero_row_entry = start_row
+    row_operations.append("MULTIPLY " + str(start_row) +  " " + str(1 / M[first_non_zero_row_entry][start_column]) + " " + str(start_row))
     M = multiply(M , start_row , 1/M[first_non_zero_row_entry][start_column])
     current_row = start_row+1
     while current_row <= end_row:
@@ -161,9 +162,9 @@ if len(pivots) == size_of_matrix :
         i = i+1
 elif len(pivots) < size_of_matrix:
     print "ALAS! DIDN'T FIND ONE!"
-    for x in row_operations:
-        print x
-    for x in row_operations_1:
-        print x
+for x in row_operations:
+    print x
+for x in row_operations_1:
+    print x
 
 
