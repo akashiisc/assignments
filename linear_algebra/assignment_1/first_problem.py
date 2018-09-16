@@ -57,7 +57,7 @@ def convert_to_echelon_form(M , start_row , start_column , end_row , end_column)
         return convert_to_echelon_form(M, start_row, start_column + 1, end_row, end_column)
     elif first_non_zero_row_entry != start_row:
         M = swap(M , start_row , first_non_zero_row_entry)
-
+        first_non_zero_row_entry = start_row
     M = multiply(M , start_row , 1/M[first_non_zero_row_entry][start_column])
     current_row = start_row+1
     while current_row <= end_row:
