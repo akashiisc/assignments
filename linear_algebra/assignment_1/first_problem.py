@@ -10,14 +10,14 @@ def swap(M , row , column):
 def multiply(M , row , value):
     i = 0
     while i < len(M[row]):
-        M[row][i] = value * M[row][i]
+        M[row][i] = round(value * M[row][i] , 3)
         i = i+1
     return M
 
 def add(M , row1 , row2 , factor):
     i = 0
     while i < len(M[row1]):
-        M[row1][i] = M[row1][i] + factor * M[row2][i]
+        M[row1][i] = round(M[row1][i] + factor * M[row2][i] , 3)
         i=i+1
     return M
 
@@ -113,7 +113,7 @@ def solve_for_unique_solution(solution , pivot_columns , end_column):
 
 def solve_for_many_solutions(solution , pivot_columns , end_column ):
     trials = 0
-    max_trials = 100
+    max_trials = 100000
     basic_variables = []
     free_variables = []
     pivot_columns = filter(lambda x: check_within(x, len(solution[0]) - 1), pivot_columns)
@@ -123,9 +123,11 @@ def solve_for_many_solutions(solution , pivot_columns , end_column ):
     for x in range(len(solution[0]) - 1):
         if x not in basic_variables:
             free_variables.append(x)
-    generalized_solution = []
+    #generalized_solution = []
+    generalized_solution = {}
     for x in free_variables:
-        generalized_solution.append("i"+str(x))
+        #generalized_solution.append("i"+str(x))
+        generalized_solution[x] = "i" + str(x)
     for (x, y) in reversed(pivot_columns):
         subtract_string = ""
         from_column = y + 1
@@ -135,7 +137,8 @@ def solve_for_many_solutions(solution , pivot_columns , end_column ):
             else :
                 subtract_string = subtract_string + " + (" + str(solution[x][from_column]) + "i" + str(from_column) + ")"
             from_column = from_column + 1
-        generalized_solution.append("i"+str(y)+" = "+ str(solution[x][end_column]) + "-" + "( " + subtract_string + " )" )
+        #generalized_solution.append("i"+str(y)+" = "+ str(solution[x][end_column]) + "-" + "( " + subtract_string + " )" )
+        generalized_solution[y] = str(solution[x][end_column]) + "-" + "( " + subtract_string + " )"
 
     while trials < max_trials:
         variable_assignments = {}
@@ -170,6 +173,16 @@ def check_for_the_inequalities(variable_assignments , max_quantities):
 def check_within(list_element , max_value):
     return list_element[1] < max_value
 
+def try_to_make_max_zeros_except_the_ones_utility(matrix , start_row , start_column , end_row , end_column , pivot_entries):
+    for (x,y) in pivot_entries:
+        # make all entries above the pivot to be zero
+        counter = x - 1
+        while counter >= 0:
+            if matrix[counter][y] != 0 :
+                matrix = add(matrix , counter , x , -matrix[counter][y] / matrix[x][y])
+            counter = counter - 1
+    return matrix
+
 
 part = sys.argv[1]
 file_name_for_input = sys.argv[2]
@@ -201,6 +214,7 @@ max_quantities = [float(x) for x in f.readline().strip().split()]
 
 solution = convert_to_echelon_form(percentages ,  0 , 0 , len(percentages)-1 , len(percentages[0])-1)
 pivot_columns = find_pivot_columns(solution , 0 , 0 , len(solution)-1 , len(solution[0])-1)
+solution = try_to_make_max_zeros_except_the_ones_utility(solution , 0 , 0 , len(solution)-1 , len(solution[0])-1 , pivot_columns)
 if len(pivot_columns) == len(solution[0]):
     print "NOT POSSIBLE,SNAPE IS WICKED!"
 elif len(pivot_columns) == len(solution[0])-1:
@@ -215,6 +229,7 @@ elif len(pivot_columns) == len(solution[0])-1:
     else :
         print "NOT POSSIBLE,SNAPE IS WICKED!"
 else: # case when there are some free variables
+
     (possibility , variable_assignments , generalized_solution) = solve_for_many_solutions(solution , pivot_columns , len(solution[0])-1)
     if possibility == True:
         print "MORE THAN ONE!"
@@ -222,5 +237,10 @@ else: # case when there are some free variables
             sys.stdout.write(str(variable_assignments[x]))
             sys.stdout.write(" ")
         print ""
-        generalized_solution_string = ",".join(generalized_solution)
-        print generalized_solution_string
+        #generalized_solution_string = ",".join(generalized_solution)
+        generalized_solution_string_list = []
+        for x in generalized_solution:
+            generalized_solution_string_list.append(generalized_solution[x])
+
+        generalized_solution_string = ",".join(generalized_solution_string_list)
+        print "( "+ generalized_solution_string + " )"
