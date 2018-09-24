@@ -258,3 +258,13 @@ else: # case when there are some free variables
         generalized_solution_string = ",".join(generalized_solution_string_list)
         print "( "+ generalized_solution_string + " )"
         of.write("( "+ generalized_solution_string + " )")
+    else:
+        print "NOT POSSIBLE,SNAPE IS WICKED!"
+        of.write("NOT POSSIBLE,SNAPE IS WICKED!\n")
+        generalized_solution_string_list = []
+        for x in generalized_solution:
+            generalized_solution_string_list.append(generalized_solution[x])
+
+        generalized_solution_string = ",".join(generalized_solution_string_list)
+        print "( "+ generalized_solution_string + " )"
+        of.write("( "+ generalized_solution_string + " )")
