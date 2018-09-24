@@ -220,35 +220,35 @@ solution = convert_to_echelon_form(percentages ,  0 , 0 , len(percentages)-1 , l
 pivot_columns = find_pivot_columns(solution , 0 , 0 , len(solution)-1 , len(solution[0])-1)
 solution = try_to_make_max_zeros_except_the_ones_utility(solution , 0 , 0 , len(solution)-1 , len(solution[0])-1 , pivot_columns)
 if len(pivot_columns) == len(solution[0]):
-    #print "NOT POSSIBLE,SNAPE IS WICKED!"
+    print "NOT POSSIBLE,SNAPE IS WICKED!"
     of.write("NOT POSSIBLE,SNAPE IS WICKED!\n")
 elif len(pivot_columns) == len(solution[0])-1:
     pivot_columns = filter(lambda x:check_within(x , len(solution[0])-1) , pivot_columns)
     variable_assignments = solve_for_unique_solution(solution , pivot_columns , len(solution[0])-1)
     (possibility , rejection_type) = check_for_the_inequalities(variable_assignments , max_quantities)
     if possibility == True:
-        #print "EXACTLY ONE!"
+        print "EXACTLY ONE!"
         of.write("EXACTLY ONE!\n")
         for x in variable_assignments:
-            #sys.stdout.write(str(variable_assignments[x]))
+            sys.stdout.write(str(variable_assignments[x]))
             of.write(str(variable_assignments[x]))
-            #sys.stdout.write(" ")
+            sys.stdout.write(" ")
             of.write(" ")
     else :
-        #print "NOT POSSIBLE,SNAPE IS WICKED!"
+        print "NOT POSSIBLE,SNAPE IS WICKED!"
         of.write("NOT POSSIBLE,SNAPE IS WICKED!\n")
 else: # case when there are some free variables
 
     (possibility , variable_assignments , generalized_solution) = solve_for_many_solutions(solution , pivot_columns , len(solution[0])-1)
     if possibility == True:
-        #print "MORE THAN ONE!"
+        print "MORE THAN ONE!"
         of.write("MORE THAN ONE!\n")
         for x in variable_assignments:
-            #sys.stdout.write(str(variable_assignments[x]))
+            sys.stdout.write(str(variable_assignments[x]))
             of.write(str(variable_assignments[x]))
-            #sys.stdout.write(" ")
+            sys.stdout.write(" ")
             of.write(" ")
-        #print ""
+        print ""
         of.write("\n")
         #generalized_solution_string = ",".join(generalized_solution)
         generalized_solution_string_list = []
@@ -256,5 +256,5 @@ else: # case when there are some free variables
             generalized_solution_string_list.append(generalized_solution[x])
 
         generalized_solution_string = ",".join(generalized_solution_string_list)
-        #print "( "+ generalized_solution_string + " )"
+        print "( "+ generalized_solution_string + " )"
         of.write("( "+ generalized_solution_string + " )")

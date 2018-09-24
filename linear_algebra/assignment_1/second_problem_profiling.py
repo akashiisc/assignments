@@ -1,5 +1,6 @@
 import sys
 import random
+import time
 
 def swap(M , row , column):
     temp = M[row]
@@ -134,6 +135,7 @@ of = open("output_problem2.txt" , "w")
 size_of_matrix = int(f.readline().strip())
 i=0
 matrix = []
+start_time = time.clock()
 while i < size_of_matrix :
     matrix_row = [float(x) for x in f.readline().strip().split()]
     j = 0
@@ -150,27 +152,29 @@ pivots = find_pivot_columns(matrix , 0 , 0 , size_of_matrix-1 , size_of_matrix-1
 (matrix , row_operations_1) = try_to_make_max_zeros_except_the_ones(matrix , 0 , 0 , size_of_matrix-1 , size_of_matrix-1 , pivots)
 pivots = find_pivot_columns(matrix , 0 , 0 , size_of_matrix-1 , size_of_matrix-1)
 if len(pivots) == size_of_matrix :
-    print "YAAY! FOUND ONE !"
+    #print "YAAY! FOUND ONE !"
     of.write("YAAY! FOUND ONE !\n")
     i = 0
     while i < size_of_matrix:
         j = size_of_matrix
         while j < 2*size_of_matrix :
-            sys.stdout.write(str(matrix[i][j]))
+            #sys.stdout.write(str(matrix[i][j]))
             of.write(str(matrix[i][j]))
-            sys.stdout.write(" ")
+            #sys.stdout.write(" ")
             of.write(" ")
             j = j+1
-        print ""
+        #print ""
         of.write("\n")
         i = i+1
 elif len(pivots) < size_of_matrix:
-    print "ALAS! DIDN'T FIND ONE!"
+    #print "ALAS! DIDN'T FIND ONE!"
     of.write("ALAS! DIDN'T FIND ONE!\n")
 for x in row_operations:
-    print x
+    #print x
     of.write(x+"\n")
 for x in row_operations_1:
-    print x
+    #print x
     of.write(x+"\n")
+end_time = time.clock()
+print end_time - start_time
 
