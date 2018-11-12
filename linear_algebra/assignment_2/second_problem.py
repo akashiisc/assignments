@@ -1,4 +1,5 @@
 import sys
+from eigen_values_vector  import *
 
 def parse_file(file_name):
     matrix = []
@@ -40,8 +41,12 @@ def find_covarience_matrix(matrix , mean_vector):
 
 
 file_name = sys.argv[1]
+
 matrix = parse_file(file_name)
 mean_vector = find_mean_vector(matrix)
 covarience_vector = find_covarience_matrix(matrix , mean_vector)
-print(covarience_vector)
+
+#matrix = [[2,4,6] , [4, 14,6] , [6,6,28]]
+eigen_values = find_eigen_values(matrix)
+print(eigen_values)
 
