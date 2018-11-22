@@ -116,7 +116,7 @@ def solve_for_many_solutions(solution , pivot_columns , end_column ):
     max_trials = 100000
     basic_variables = []
     free_variables = []
-    pivot_columns = filter(lambda x: check_within(x, len(solution[0]) - 1), pivot_columns)
+    #pivot_columns = filter(lambda x: check_within(x, len(solution[0]) - 1), pivot_columns)
     for (x, y) in pivot_columns:
         if (y < end_column):
             basic_variables.append(y)
@@ -143,7 +143,7 @@ def solve_for_many_solutions(solution , pivot_columns , end_column ):
     while trials < max_trials:
         variable_assignments = {}
         for x in free_variables:
-            variable_assignments[x] = random.randint(1,max_quantities[x])
+            variable_assignments[x] = random.randint(1,1000)
         for (x,y) in reversed(pivot_columns):
             subtract_value = 0
             from_column = y+1
@@ -151,9 +151,10 @@ def solve_for_many_solutions(solution , pivot_columns , end_column ):
                 subtract_value = subtract_value + solution[x][from_column] * variable_assignments[from_column]
                 from_column = from_column+1
             variable_assignments[y] = round(solution[x][end_column] - subtract_value , 3)
-        (possibility,rejection_type) = check_for_the_inequalities(variable_assignments, max_quantities)
-        if possibility == True:
-            return (possibility , variable_assignments , generalized_solution)
+        #(possibility,rejection_type) = check_for_the_inequalities(variable_assignments, max_quantities)
+        #if possibility == True:
+        possibility = True
+        return (possibility , variable_assignments , generalized_solution)
         trials = trials + 1
     return (False , {} , generalized_solution)
 
@@ -188,12 +189,17 @@ def solve_matrix(percentages):
     solution = convert_to_echelon_form(percentages ,  0 , 0 , len(percentages)-1 , len(percentages[0])-1)
     pivot_columns = find_pivot_columns(solution , 0 , 0 , len(solution)-1 , len(solution[0])-1)
     solution = try_to_make_max_zeros_except_the_ones_utility(solution , 0 , 0 , len(solution)-1 , len(solution[0])-1 , pivot_columns)
+    for x in range(len(solution)):
+        for y in range(len(solution[0])):
+            print(solution[x][y] , end=" ")
+        print("")
     if len(pivot_columns) == len(solution[0])-1:
-        pivot_columns = filter(lambda x:check_within(x , len(solution[0])-1) , pivot_columns)
+        #pivot_columns = filter(lambda x:check_within(x , len(solution[0])-1) , pivot_columns)
         variable_assignments = solve_for_unique_solution(solution , pivot_columns , len(solution[0])-1)
+        return (variable_assignments , {})
     else: # case when there are some free variables
         (possibility , variable_assignments , generalized_solution) = solve_for_many_solutions(solution , pivot_columns , len(solution[0])-1)
         if possibility == True:
-            return variable_assignments
+            return (variable_assignments , generalized_solution)
         else:
-            return []
+            return ([],generalized_solution)
