@@ -1,3 +1,8 @@
+import operator
+import numpy as np
+from copy import copy, deepcopy
+from matrix_operations import *
+
 def print_beautifully(values_map , heading , Column1Heading , Column2Heading , write_to_file , filePath , type):
 	filePath.write(heading + "\n")
 	filePath.write("=======================================\n")
@@ -56,3 +61,50 @@ def get_repeating_values(apna_map):
 		if(len(apna_map[i]) > 1):
 			return_map[i] = len(apna_map[i])
 	return return_map;
+
+def get_top_m_values(apna_map , m=1):
+	sorted_by_value = sorted(apna_map , reverse=True)
+	top_m_entries = []
+	for i in range(m):
+		top_m_entries.append(sorted_by_value[i])
+	return top_m_entries
+
+# def opr_transpose(m):
+# 	rm = []
+
+
+def append_m_columns(matrix , m ):
+	copy_matrix = deepcopy(matrix)
+	#temp = transpose(copy_matrix)
+	temp = np.array(copy_matrix).transpose().tolist()
+	for i in range(m):
+		listofzeros = [0] * len(copy_matrix)
+		temp.append(listofzeros)
+	#temp = np.array(temp).transpose().tolist()
+	return opr_transpose(temp)
+
+def calculate_square_distance(m , i , j):
+	sum_inner = 0
+	for y in range(len(m[0])):
+		sum_inner = sum_inner + ((m[i][y] - m[j][y])**2)
+	return sum_inner
+
+def take_top_m_points(values , m):
+	top_m_entries = []
+	for i in range(m):
+		top_m_entries.append(values[i][0])
+	return top_m_entries
+
+def find_majority(num_list):
+        idx, ctr = 0, 1
+        
+        for i in range(1, len(num_list)):
+            if num_list[idx] == num_list[i]:
+                ctr += 1
+            else:
+                ctr -= 1
+                if ctr == 0:
+                    idx = i
+                    ctr = 1
+        
+        return num_list[idx]

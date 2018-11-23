@@ -3,15 +3,17 @@ import numpy
 #from eigen_values_vector  import *
 from myqr import *
 from helping_functions import *
-
+from matrix_operations import *
 def parse_file(file_name):
     matrix = []
+    label_matrix = []
     f = open(file_name).readlines()
     for row in f:
         var = [ int(j) for j in row.strip().split(",")]
+        label_matrix.append(var[0])
         var.pop(0)
         matrix.append(var)
-    return matrix
+    return matrix , label_matrix
 
 def find_mean_vector(matrix):
     mean_vector = []
@@ -126,10 +128,43 @@ def find_covarience_matrix(matrix , mean_vector):
     cov_mat = divide_by_no(cov_mat , no_of_features)
     return cov_mat
 
+def take_first_n_columns(eigen_vectors , n ):
+    eigen_vectors_transposed = eigen_vectors.transpose()
+    response = []
+    for i in range(n):
+        response.append(eigen_vectors_transposed[i])
+    return np.array(response).transpose()
+
+def sort_eigen_vectors_corresponding_to_sorted_eigen_values(count_of_repeating_eigen_values , eigen_vectors):
+    sorted_by_value = sorted(count_of_repeating_eigen_values , reverse=True)
+    eigen_vectors_traponsed = np.array(eigen_vectors).transpose()
+    sorted_eig_vec_matrix = []
+    for x in sorted_by_value:
+        for y in count_of_repeating_eigen_values[x]:
+            sorted_eig_vec_matrix.append(eigen_vectors_traponsed[y])
+    return np.array(sorted_eig_vec_matrix).transpose()
+
+def calculate_reconstruction_error(matrix1 , matrix2):
+    sum = 0
+    for x in range(len(matrix1)):
+        sum_inner = 0
+        for y in range(len(matrix1[0])):
+            sum_inner = sum_inner + ((matrix1[x][y] - matrix2[x][y])**2)
+        sum = sum + sum_inner
+    return sum/len(matrix)
+
+def get_labels_corresponding_to_top_m_points(top_m_points , label_matrix):
+    labels = []
+    for i in top_m_points:
+        labels.append(label_matrix[i])
+    return labels
 
 file_name = sys.argv[1]
-matrix = parse_file(file_name)
-matrix = remove_first_column(matrix)
+#output_plot_dir = "./output_plots/"
+output_file_path = "./output_data/output_problem2.txt"
+file_to_write = open(output_file_path , 'w')
+matrix , label_matrix = parse_file(file_name)
+#matrix = remove_first_column(matrix)
 mean_vector = find_mean_vector(matrix)
 covarience_vector = find_covarience_matrix(matrix , mean_vector)
 #print(covarience_vector)
@@ -143,6 +178,63 @@ eigen_values , eigen_vectors = (numpy.linalg.eig(covarience_vector))
 unique_eigen_values_with_counts = find_unique_with_counts(eigen_values)
 count_of_repeating_eigen_values = get_repeating_values(unique_eigen_values_with_counts)
 print(count_of_repeating_eigen_values)
+sorted_eigen_vectors = sort_eigen_vectors_corresponding_to_sorted_eigen_values(unique_eigen_values_with_counts , eigen_vectors)
 
-#print(eigen_values)
+reconstruction_error_map = {}
+for i in range(2, 10) :
+    top_m_eigen_vectors = take_first_n_columns(sorted_eigen_vectors , i)
+    reduced_dimention_matrix = opr_multiply(matrix , top_m_eigen_vectors)
+    appended_matrix = append_m_columns(reduced_dimention_matrix , len(matrix[0])-i)
+    reconstruction_error = calculate_reconstruction_error( matrix, appended_matrix)
+    reconstruction_error_map[i] = reconstruction_error
 
+print_barrier(file_to_write)
+print_beautifully(reconstruction_error_map , "Reconstruction Error" , "Dimentionality Reduction" , "Reconstruction error" , True , file_to_write , "map")
+print_barrier(file_to_write)
+
+converted_mean_vector_to_matrix = []
+for i in range(len(matrix)):
+    a = copy(mean_vector)
+    converted_mean_vector_to_matrix.append(a)
+
+print(len(mean_vector))
+print(len(converted_mean_vector_to_matrix))
+print(len(converted_mean_vector_to_matrix[0]))
+converted_minus_mean_matrix = opr_subtract(matrix , converted_mean_vector_to_matrix)
+print(len(converted_minus_mean_matrix))
+
+
+
+############################################################################################
+#                                                                                          #          
+#                  K-NN Code Yipieeeeeeeeeeeee                                             #
+#                                                                                          #
+############################################################################################
+# First doing it for complete data without reduction                                       #
+# Taking first 9000 for training and last 1000 for teting                                  #
+############################################################################################
+
+correctness_difference_vector = []
+for i in range(8000 , 10000):
+    squared_distance_from_all = {}
+    for j in range(8000):
+        squared_distance = calculate_square_distance(matrix , i , j)
+        squared_distance_from_all[j] = squared_distance
+    sorted_squared_distance_from_all = sorted(squared_distance_from_all.items(), key = lambda x : x[1] , reverse=True)
+    # for i , j  in sorted_squared_distance_from_all:
+    #     print( str(i) + " " + str(j))
+    top_m_points = take_top_m_points(sorted_squared_distance_from_all , 5)
+    labels_corresponding_to_top_m_points = get_labels_corresponding_to_top_m_points(top_m_points , label_matrix)
+    majority_element = find_majority(labels_corresponding_to_top_m_points)
+    print(str(majority_element) + " " + str(label_matrix[i]))
+    correctness_difference_vector.append(majority_element - label_matrix[i])
+    print(str(i) + "done")
+
+non_zero_elements = numpy.count_nonzero(correctness_difference_vector)
+print("Correceness = ")
+accuracy = (len(correctness_difference_vector)-non_zero_elements) / len(correctness_difference_vector)
+print(accuracy)
+
+#top_m_eigen_values = get_top_m_values(unique_eigen_values_with_counts , 4)
+#print(top_m_eigen_values)
+#vector_corresponding_to_top_m_eigen_values = build_vector_corresponding_to_values(top_m_eigen_values , count_of_repeating_eigen_values , eigen_vectors)
