@@ -2,8 +2,11 @@ import sys
 import numpy
 #from eigen_values_vector  import *
 from myqr import *
+from sklearn.neighbors import KNeighborsClassifier
 from helping_functions import *
 from matrix_operations import *
+
+
 def parse_file(file_name):
     matrix = []
     label_matrix = []
@@ -214,27 +217,69 @@ print(len(converted_minus_mean_matrix))
 # Taking first 9000 for training and last 1000 for teting                                  #
 ############################################################################################
 
-correctness_difference_vector = []
-for i in range(8000 , 10000):
-    squared_distance_from_all = {}
-    for j in range(8000):
-        squared_distance = calculate_square_distance(matrix , i , j)
-        squared_distance_from_all[j] = squared_distance
-    sorted_squared_distance_from_all = sorted(squared_distance_from_all.items(), key = lambda x : x[1] , reverse=True)
-    # for i , j  in sorted_squared_distance_from_all:
-    #     print( str(i) + " " + str(j))
-    top_m_points = take_top_m_points(sorted_squared_distance_from_all , 5)
-    labels_corresponding_to_top_m_points = get_labels_corresponding_to_top_m_points(top_m_points , label_matrix)
-    majority_element = find_majority(labels_corresponding_to_top_m_points)
-    print(str(majority_element) + " " + str(label_matrix[i]))
-    correctness_difference_vector.append(majority_element - label_matrix[i])
+m_values = range(10,50)
+k_values = range(5,50,5)
+
+for m in m_values:
+    top_m_eigen_vectors = take_first_n_columns(sorted_eigen_vectors , m)
+    reduced_dimention_matrix = opr_multiply(matrix , top_m_eigen_vectors)
+    reduced_dimention_matrix = np.array(reduced_dimention_matrix).real
+    mean_vector_of_reduced = find_mean_vector(reduced_dimention_matrix)
+    converted_mean_vector_to_matrix = []
+    for j in range(len(matrix)):
+        a = copy(mean_vector_of_reduced)
+        converted_mean_vector_to_matrix.append(a)
+    correctness_difference_vector = []
+    for i in range(8000 , 10000):
+        squared_distance_from_all = {}
+        for j in range(8000):
+            squared_distance = calculate_square_distance(converted_minus_mean_matrix , i , j)
+            squared_distance_from_all[j] = squared_distance
+        sorted_squared_distance_from_all = sorted(squared_distance_from_all.items(), key = lambda x : x[1])
+        top_m_points = take_top_m_points(sorted_squared_distance_from_all , 5)
+        labels_corresponding_to_top_m_points = get_labels_corresponding_to_top_m_points(top_m_points , label_matrix)
+        majority_element = find_majority(labels_corresponding_to_top_m_points)
+        correctness_difference_vector.append(majority_element - label_matrix[i])
     print(str(i) + "done")
+    non_zero_elements = numpy.count_nonzero(correctness_difference_vector)
+    accuracy = (len(correctness_difference_vector)-non_zero_elements) / len(correctness_difference_vector)
+    print( str(m) + "," + str(5) + "," + str(accuracy))
 
-non_zero_elements = numpy.count_nonzero(correctness_difference_vector)
-print("Correceness = ")
-accuracy = (len(correctness_difference_vector)-non_zero_elements) / len(correctness_difference_vector)
-print(accuracy)
 
+############################################################################################
+#                                                                                          #          
+#                  K-NN Code Skilearn                                                      #
+#                                                                                          #
+############################################################################################
+# First doing it for complete data without reduction                                       #
+# Taking first 9000 for training and last 1000 for teting                                  #
+############################################################################################
+
+m_values = range(100,500)
+k_values = range(5,50,5)
+
+for m in m_values:
+    top_m_eigen_vectors = take_first_n_columns(sorted_eigen_vectors , m)
+    reduced_dimention_matrix = opr_multiply(matrix , top_m_eigen_vectors)
+    reduced_dimention_matrix = np.array(reduced_dimention_matrix).real
+    mean_vector_of_reduced = find_mean_vector(reduced_dimention_matrix)
+    converted_mean_vector_to_matrix = []
+    for j in range(len(matrix)):
+        a = copy(mean_vector_of_reduced)
+        converted_mean_vector_to_matrix.append(a)
+    converted_minus_mean_matrix = opr_subtract(reduced_dimention_matrix , converted_mean_vector_to_matrix)
+    for k in k_values: 
+        correctness_difference_vector = []
+        neigh = KNeighborsClassifier(n_neighbors=5)
+        neigh.fit(converted_minus_mean_matrix[:8000], label_matrix[:8000])
+        for i in range(8001 , 10000):
+            majority_element = neigh.predict([converted_minus_mean_matrix[i]])
+            correctness_difference_vector.append(majority_element[0] - label_matrix[i])
+        non_zero_elements = numpy.count_nonzero(correctness_difference_vector)
+        accuracy = (len(correctness_difference_vector)-non_zero_elements) / len(correctness_difference_vector)
+        print( str(m) + "," + str(k) + "," + str(accuracy))
+
+# For each m starting from 1 to m 
 #top_m_eigen_values = get_top_m_values(unique_eigen_values_with_counts , 4)
 #print(top_m_eigen_values)
 #vector_corresponding_to_top_m_eigen_values = build_vector_corresponding_to_values(top_m_eigen_values , count_of_repeating_eigen_values , eigen_vectors)
