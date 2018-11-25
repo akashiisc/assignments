@@ -162,11 +162,13 @@ def get_labels_corresponding_to_top_m_points(top_m_points , label_matrix):
         labels.append(label_matrix[i])
     return labels
 
+output_file_path = "./output_data/output_problem2.txt"
+file_to_write = open(output_file_path , 'w')
 arguments = sys.argv
 if len(arguments) == 3 :
     if arguments[1] == "-type=gram-schimdt":
         gs_matrix = gs_outer(arguments[2])
-        print(gs_matrix)
+        print_beautifully(gs_matrix , "" , "" , "" , True , file_to_write , "list_of_list")
         exit()
     else :
         print("Unknown Input")
@@ -174,8 +176,6 @@ if len(arguments) == 3 :
 
 file_name = sys.argv[1]
 output_plot_dir = "./output_plots/"
-output_file_path = "./output_data/output_problem2.txt"
-file_to_write = open(output_file_path , 'w')
 matrix , label_matrix = parse_file(file_name)
 #matrix = remove_first_column(matrix)
 mean_vector = find_mean_vector(matrix)
