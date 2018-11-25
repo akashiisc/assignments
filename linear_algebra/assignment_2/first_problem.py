@@ -31,6 +31,20 @@ def plot_graph(apni_map , toFile , filePath):
     else :
         plt.show() 
 
+def plot_histogram(distibution_values , toFile , filePath):
+    x = []
+    for i in distibution_values:
+        for j in range(distibution_values[i]):
+            x.append(i)
+    plt.hist(x)
+    plt.ylabel("Frequency")
+    plt.ylabel("Degree Centrality")
+    if True == toFile:
+        plt.savefig(filePath)
+    else:
+        plt.show()
+
+
 def generate_probabilistic(apni_map , total):
     probablistic_distrubution = {};
     for key in apni_map:
@@ -39,7 +53,7 @@ def generate_probabilistic(apni_map , total):
 
 def convert_nodes_degree_to_degree_counts(map_nodes_degree):
     degree_counts = {}
-    print(map_nodes_degree)
+    # print(map_nodes_degree)
     for key in map_nodes_degree:
         value = map_nodes_degree[key]
         if value in degree_counts:
@@ -221,6 +235,29 @@ def plot_coloured_graph(G , cluster1 , cluster2 , write_to_file , filePath):
     else :
         plt.show()
 
+def variance_of_clusters(second_min_eigen_vector , cluster1 , cluster2):
+    sum_cluster_1 = 0
+    for x in cluster1:
+        sum_cluster_1 = sum_cluster_1 + second_min_eigen_vector[int(x) - 1]
+    mean_cluster_1 = sum_cluster_1 / len(cluster1)
+    sum_cluster_2 = 0
+    for x in cluster2:
+        sum_cluster_2 = sum_cluster_2 + second_min_eigen_vector[int(x) - 1]
+    mean_cluster_2 = sum_cluster_2 / len(cluster2)
+
+    sum_square_mean_cluster_1 = 0
+    for x in cluster1:
+        sum_square_mean_cluster_1 = sum_square_mean_cluster_1 + (second_min_eigen_vector[int(x) - 1] - mean_cluster_1)**2
+    variance_cluster_1 = sum_square_mean_cluster_1 / len(cluster1)
+
+    sum_square_mean_cluster_2 = 0
+    for x in cluster2:
+        sum_square_mean_cluster_2 = sum_square_mean_cluster_2 + (
+                    second_min_eigen_vector[int(x) - 1] - mean_cluster_2) ** 2
+    variance_cluster_2 = sum_square_mean_cluster_2 / len(cluster2)
+
+    return variance_cluster_1 , variance_cluster_2
+
 def carry_out_works(graph):
     file_to_write = open(output_file_path , 'w')
     nodes = graph.nodes
@@ -245,6 +282,8 @@ def carry_out_works(graph):
     #indegree_distribution_values = convert_nodes_degree_to_degree_counts(map_degree_nodes_indegree)
     #outdegree_distribution_values = convert_nodes_degree_to_degree_counts(map_degree_nodes_outdegree)
     degree_distribution_values = convert_nodes_degree_to_degree_counts(map_degree_nodes)
+    #print(degree_distribution_values)
+    plot_histogram(degree_distribution_values , True , output_plot_dir+"problem_1_task_2.png")
     #print(indegree_distribution_values)
     #print(outdegree_distribution_values)
     #print(degree_distribution_values)
@@ -260,7 +299,7 @@ def carry_out_works(graph):
     #print(edge_centrality)
     print_beautifully(edge_centrality , 'Edge Centrality' , 'Edge' , 'Centrality' , True , file_to_write , "map")
     x = [(k, edge_centrality[k]) for k in sorted(edge_centrality, key=edge_centrality.get)]
-    print(x)
+    #print(x)
     most_central_edge = get_most_central_edge(edge_centrality)
     file_to_write.write("Most Central Edge : (" +  str(most_central_edge[0]) + " , " + str(most_central_edge[1]) + ") \n") 
     print_barrier(file_to_write)
@@ -309,7 +348,19 @@ def carry_out_works(graph):
 
     cluster1 , cluster2 = clusterize_by_second_min_eigen_vector(second_min_eigen_vector)
     plot_coloured_graph(graph , cluster1 , cluster2 , True , output_plot_dir+"problem_1_task_6.png")
-    
+
+    print_vspace(file_to_write)
+    print_barrier(file_to_write)
+    write_string_to_file(file_to_write, "Task VII")
+    print_barrier(file_to_write)
+    var_cluster_1 , var_cluster_2 = variance_of_clusters(second_min_eigen_vector , cluster1 , cluster2)
+    if var_cluster_1 > var_cluster_2 :
+        write_string_to_file(file_to_write , "Red house would be chosen to make friends with.")
+    else :
+        write_string_to_file(file_to_write, "Blue house would be chosen to make friends with.")
+    print_barrier(file_to_write)
+
+
     # carry_out_works_using_numpy #
     eigen_values_np , eigen_vectors_np = np.linalg.eig(laplacian_matrix)
     print_vspace(file_to_write)

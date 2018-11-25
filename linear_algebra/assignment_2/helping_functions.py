@@ -3,6 +3,9 @@ import numpy as np
 from copy import copy, deepcopy
 from matrix_operations import *
 
+def write_string_to_file(filePath , string_value):
+	filePath.write(string_value+ "\n")
+
 def print_beautifully(values_map , heading , Column1Heading , Column2Heading , write_to_file , filePath , type):
 	filePath.write(heading + "\n")
 	filePath.write("=======================================\n")

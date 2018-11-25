@@ -135,9 +135,6 @@ def eig_by_qr(a):
     i = 0
     while(True):
         q, r = qr_algo(a)
-        print(q)
-        print(r)
-        exit()
         q_s_multiply_Wale.append(q)
         #if i == 0:
         #    multiplication_of_qs = np.array(q).transpose()

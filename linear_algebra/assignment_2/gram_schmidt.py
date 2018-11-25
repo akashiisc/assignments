@@ -2,7 +2,7 @@ import sys
 import numpy
 from eigen_values_vector import *
 
-def parse_file(file_name):
+def parse_file_gs(file_name):
     matrix = []
     f = open(file_name).readlines()
     for row in f:
@@ -30,8 +30,7 @@ def gs(X):
         Y.append(temp_vec)
     return Y
 
-
-file_name = sys.argv[1]
-matrix = parse_file(file_name)
-x = gs(matrix)
-print(x)
+def gs_outer(file_name):
+    matrix = parse_file_gs(file_name)
+    x = gs(matrix)
+    return x

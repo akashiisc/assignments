@@ -5,7 +5,7 @@ from myqr import *
 from sklearn.neighbors import KNeighborsClassifier
 from helping_functions import *
 from matrix_operations import *
-
+from gram_schmidt import *
 
 def parse_file(file_name):
     matrix = []
@@ -162,6 +162,17 @@ def get_labels_corresponding_to_top_m_points(top_m_points , label_matrix):
         labels.append(label_matrix[i])
     return labels
 
+arguments = sys.argv
+if len(arguments) == 3 :
+    if arguments[1] == "-type=gram-schimdt":
+        gs_matrix = gs_outer(arguments[2])
+        print(gs_matrix)
+        exit()
+    else :
+        print("Unknown Input")
+        exit(1)
+exit()
+
 file_name = sys.argv[1]
 #output_plot_dir = "./output_plots/"
 output_file_path = "./output_data/output_problem2.txt"
@@ -217,8 +228,10 @@ print(len(converted_minus_mean_matrix))
 # Taking first 9000 for training and last 1000 for teting                                  #
 ############################################################################################
 
-m_values = range(10,50)
-k_values = range(5,50,5)
+print_barrier(file_to_write)
+
+m_values = range(1,5)
+k_values = range(5,20,5)
 
 for m in m_values:
     top_m_eigen_vectors = take_first_n_columns(sorted_eigen_vectors , m)
@@ -229,22 +242,27 @@ for m in m_values:
     for j in range(len(matrix)):
         a = copy(mean_vector_of_reduced)
         converted_mean_vector_to_matrix.append(a)
-    correctness_difference_vector = []
+
+    correctness_difference_vector = {}
+    for k in k_values:
+        correctness_difference_vector[k] = []
     for i in range(8000 , 10000):
         squared_distance_from_all = {}
         for j in range(8000):
             squared_distance = calculate_square_distance(converted_minus_mean_matrix , i , j)
             squared_distance_from_all[j] = squared_distance
-        sorted_squared_distance_from_all = sorted(squared_distance_from_all.items(), key = lambda x : x[1])
-        top_m_points = take_top_m_points(sorted_squared_distance_from_all , 5)
-        labels_corresponding_to_top_m_points = get_labels_corresponding_to_top_m_points(top_m_points , label_matrix)
-        majority_element = find_majority(labels_corresponding_to_top_m_points)
-        correctness_difference_vector.append(majority_element - label_matrix[i])
-    print(str(i) + "done")
-    non_zero_elements = numpy.count_nonzero(correctness_difference_vector)
-    accuracy = (len(correctness_difference_vector)-non_zero_elements) / len(correctness_difference_vector)
-    print( str(m) + "," + str(5) + "," + str(accuracy))
+        sorted_squared_distance_from_all = sorted(squared_distance_from_all.items(), key=lambda x: x[1])
+        for k in k_values:
+            top_m_points = take_top_m_points(sorted_squared_distance_from_all , k)
+            labels_corresponding_to_top_m_points = get_labels_corresponding_to_top_m_points(top_m_points , label_matrix)
+            majority_element = find_majority(labels_corresponding_to_top_m_points)
+            correctness_difference_vector[k].append(majority_element - label_matrix[i])
+    for k in k_values:
+        non_zero_elements = numpy.count_nonzero(correctness_difference_vector[k])
+        accuracy = (len(correctness_difference_vector[k])-non_zero_elements) / len(correctness_difference_vector[k])
+        print( str(m) + "," + str(k) + "," + str(accuracy))
 
+print_barrier(file_to_write)
 
 ############################################################################################
 #                                                                                          #          
@@ -255,8 +273,10 @@ for m in m_values:
 # Taking first 9000 for training and last 1000 for teting                                  #
 ############################################################################################
 
-m_values = range(100,500)
-k_values = range(5,50,5)
+print_barrier(file_to_write)
+
+m_values = range(10,50)
+k_values = range(5,20,5)
 
 for m in m_values:
     top_m_eigen_vectors = take_first_n_columns(sorted_eigen_vectors , m)
@@ -268,9 +288,9 @@ for m in m_values:
         a = copy(mean_vector_of_reduced)
         converted_mean_vector_to_matrix.append(a)
     converted_minus_mean_matrix = opr_subtract(reduced_dimention_matrix , converted_mean_vector_to_matrix)
-    for k in k_values: 
+    for k in k_values:
         correctness_difference_vector = []
-        neigh = KNeighborsClassifier(n_neighbors=5)
+        neigh = KNeighborsClassifier(n_neighbors=k)
         neigh.fit(converted_minus_mean_matrix[:8000], label_matrix[:8000])
         for i in range(8001 , 10000):
             majority_element = neigh.predict([converted_minus_mean_matrix[i]])
@@ -279,6 +299,7 @@ for m in m_values:
         accuracy = (len(correctness_difference_vector)-non_zero_elements) / len(correctness_difference_vector)
         print( str(m) + "," + str(k) + "," + str(accuracy))
 
+print_barrier(file_to_write)
 # For each m starting from 1 to m 
 #top_m_eigen_values = get_top_m_values(unique_eigen_values_with_counts , 4)
 #print(top_m_eigen_values)
