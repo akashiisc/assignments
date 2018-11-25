@@ -166,6 +166,7 @@ arguments = sys.argv
 if len(arguments) == 3 :
     if arguments[1] == "-type=gram-schimdt":
         gs_matrix = gs_outer(arguments[2])
+        print_matrix_onscreen()
         print(gs_matrix)
         exit()
     else :
@@ -220,13 +221,8 @@ for i in range(len(matrix)):
     a = copy(mean_vector)
     converted_mean_vector_to_matrix.append(a)
 
-print(len(mean_vector))
-print(len(converted_mean_vector_to_matrix))
-print(len(converted_mean_vector_to_matrix[0]))
 converted_minus_mean_matrix = opr_subtract(matrix , converted_mean_vector_to_matrix)
-print(len(converted_minus_mean_matrix))
 
-'''
 
 ############################################################################################
 #                                                                                          #          
@@ -241,7 +237,7 @@ print_barrier(file_to_write)
 
 # m_values = range(20,30)
 # k_values = [1,3,5,10,15,20]
-m_values = range(30,35)
+m_values = range(100,400,10)
 k_values = [1,3]
 for m in m_values:
     top_m_eigen_vectors = take_first_n_columns(sorted_eigen_vectors , m)
@@ -274,7 +270,8 @@ for m in m_values:
         print( str(m) + "," + str(k) + "," + str(accuracy))
 
 print_barrier(file_to_write)
-'''
+
+
 ############################################################################################
 #                                                                                          #          
 #                  K-NN Code Sklearn                                                      #

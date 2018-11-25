@@ -227,7 +227,7 @@ def plot_coloured_graph(G , cluster1 , cluster2 , write_to_file , filePath):
                        nodelist=cluster2,
                        node_color='b',
                        node_size=500,
-                   alpha=0.8)
+                   alpha=0.8,with_labels=True)
     networkx.draw_networkx_edges(G,pos,width=1.0,alpha=0.5)
 
     if True == write_to_file :
@@ -309,7 +309,8 @@ def carry_out_works(graph):
     x = [(k, edge_centrality[k]) for k in sorted(edge_centrality, key=edge_centrality.get)]
     #print(x)
     most_central_edge = get_most_central_edge(edge_centrality)
-    file_to_write.write("Most Central Edge : (" +  str(most_central_edge[0]) + " , " + str(most_central_edge[1]) + ") \n") 
+    file_to_write.write("Most Central Edge : (" +  str(most_central_edge[0]) + " , " + str(most_central_edge[1]) + ") \n")
+    print("Most Central Edge : (" +  str(most_central_edge[0]) + " , " + str(most_central_edge[1]) + ")")
     print_barrier(file_to_write)
     # print(networkx.edge_betweenness_centrality(graph))
     # print(graph.edges)
@@ -355,11 +356,11 @@ def carry_out_works(graph):
     print_barrier(file_to_write)
     print_beautifully(min_eigen_val[1] , 'Min Eigen Value' , '' , '' , True , file_to_write , "string")
     print_barrier(file_to_write)
-    print_beautifully(min_eigen_vector , 'Min Eigen Vector' , '' , '' , True , file_to_write , "list")
+    print_beautifully(min_eigen_vector , 'Eigen Vector corresponding to min eigenvalue' , '' , '' , True , file_to_write , "list")
     print_barrier(file_to_write)
     print_beautifully(second_min_eigen_val[1] , 'Second Min Eigen Value' , '' , '' , True , file_to_write , "string")
     print_barrier(file_to_write)
-    print_beautifully(second_min_eigen_vector , 'Second Min Eigen Vector' , '' , '' , True , file_to_write , "list")
+    print_beautifully(second_min_eigen_vector , 'Eigen Vector corresponding to second min eigenvalue' , '' , '' , True , file_to_write , "list")
     
     # print(min_eigen_val)
     # print(second_min_eigen_val)
@@ -394,9 +395,9 @@ def carry_out_works(graph):
     second_min_eigen_val = eigen_value_map_sorted[1]
     second_min_eigen_vector = eigen_vector_map[second_min_eigen_val[0]]
     print_beautifully(min_eigen_val[1] , 'Min Eigen Value' , '' , '' , True , file_to_write , "string")
-    print_beautifully(min_eigen_vector , 'Min Eigen Vector' , '' , '' , True , file_to_write , "list")
+    print_beautifully(min_eigen_vector , 'Eigen Vector corresponding to min eigenvalue' , '' , '' , True , file_to_write , "list")
     print_beautifully(second_min_eigen_val[1] , 'Second Min Eigen Value' , '' , '' , True , file_to_write , "string")
-    print_beautifully(second_min_eigen_vector , 'Second Min Eigen Vector' , '' , '' , True , file_to_write , "list")
+    print_beautifully(second_min_eigen_vector , 'Eigen Vector corresponding to second min eigenvalue' , '' , '' , True , file_to_write , "list")
     print_barrier(file_to_write)
     cluster1 , cluster2 = clusterize_by_second_min_eigen_vector(second_min_eigen_vector)
     plot_coloured_graph(graph , cluster1 , cluster2 , True , output_plot_dir+"problem_1_bonus_1.png")    

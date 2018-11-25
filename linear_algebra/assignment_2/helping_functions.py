@@ -11,53 +11,54 @@ def write_string_to_file(filePath , string_value):
 
 def print_beautifully(values_map , heading , Column1Heading , Column2Heading , write_to_file , filePath , type):
 	filePath.write(heading + "\n")
-	print("\n")
+	print(heading)
 	filePath.write("=======================================\n")
-	print("=======================================\n")
+	print("=======================================")
 	if type == "map":
 		filePath.write(Column1Heading + "\t" + Column2Heading + "\n")
+		print(Column1Heading + "\t" + Column2Heading + "\n")
 		for i in values_map:
 			filePath.write(str(i) + "\t|" + str(values_map[i]) + "\n")
-			print(str(i) + "\t|" + str(values_map[i]) + "\n")
+			print(str(i) + "\t|" + str(values_map[i]))
 	elif type == "list":
 		filePath.write(",".join([str(g) for g in values_map]))
 		print(",".join([str(g) for g in values_map]))
 		filePath.write("\n")
-		print("\n")
+		#print("")
 	elif type == "list_of_list":
 		for i in range(len(values_map)):
 			filePath.write(",".join([str(g) for g in values_map[i]]))
 			print(",".join([str(g) for g in values_map[i]]))
 			filePath.write("\n")
-			print("\n")
+			#print("")
 	elif type == "string":
 		filePath.write(str(values_map))
 		print(str(values_map))
 		filePath.write("\n")
-		print("\n")
+		#print("")
 	filePath.write("=======================================\n")
-	print("=======================================\n")
+	print("=======================================")
 
 
 def print_barrier(filePath):
 	filePath.write("=======================================\n")
-	print("=======================================\n")
+	print("=======================================")
 
 def print_vspace(filePath):
 	filePath.write("\n\n\n")
-	print("\n\n\n")
+	print("\n\n")
 
 def print_beautifully_matrix( m, filePath , heading):
 	#filePath.write("")
 	filePath.write(heading + "\n")
-	print(heading + "\n")
+	print(heading + "")
 	filePath.write("=======================================\n")
-	print("=======================================\n")
+	print("=======================================")
 	for i in range(len(m)):
 		filePath.write(",".join([str(g) for g in m[i]]))
 		print(",".join([str(g) for g in m[i]]))
 		filePath.write("\n")
-		print("\n")
+		#print("")
 
 def check_complex(list):
 	complex_nos = 0

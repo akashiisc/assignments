@@ -193,7 +193,9 @@ matrix, label_matrix = parse_file(file_name)
 test_matrix , test_label_matrix = parse_file(test_file_name)
 # matrix = remove_first_column(matrix)
 mean_vector = find_mean_vector(matrix)
+print_beautifully(mean_vector , "Mean" , "" , "" , True , file_to_write , 'list')
 covarience_vector = find_covarience_matrix(matrix, mean_vector)
+print_beautifully(covarience_vector , "Covarience matrix" , "" , "" , True , file_to_write , 'list_of_list')
 # print(covarience_vector)
 # print(covarience_vector[97][67])
 # print(numpy.cov(numpy.transpose(matrix)))
@@ -204,7 +206,8 @@ covarience_vector = find_covarience_matrix(matrix, mean_vector)
 eigen_values, eigen_vectors = (numpy.linalg.eig(covarience_vector))
 unique_eigen_values_with_counts = find_unique_with_counts(eigen_values)
 count_of_repeating_eigen_values = get_repeating_values(unique_eigen_values_with_counts)
-print(count_of_repeating_eigen_values)
+print_beautifully(count_of_repeating_eigen_values , "Repeating eigen values" , "" , "" , True , file_to_write , 'map')
+#print(count_of_repeating_eigen_values)
 sorted_eigen_vectors = sort_eigen_vectors_corresponding_to_sorted_eigen_values(unique_eigen_values_with_counts,
                                                                                eigen_vectors)
 
@@ -256,7 +259,7 @@ print(len(converted_minus_mean_matrix))
 print_barrier(file_to_write)
 
 
-m_value=20
+m_value=400
 k_value=3
 
 top_m_eigen_vectors = take_first_n_columns(sorted_eigen_vectors , m_value)
