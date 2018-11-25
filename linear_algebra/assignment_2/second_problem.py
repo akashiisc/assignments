@@ -168,7 +168,7 @@ arguments = sys.argv
 if len(arguments) == 3 :
     if arguments[1] == "-type=gram-schimdt":
         gs_matrix = gs_outer(arguments[2])
-        print_beautifully(gs_matrix , "" , "" , "" , True , file_to_write , "list_of_list")
+        print_beautifully_wo_barrier(gs_matrix , "" , "" , "" , True , file_to_write , "list_of_list")
         exit()
     else :
         print("Unknown Input")
