@@ -281,7 +281,15 @@ def carry_out_works(graph):
         #total_indegree = total_indegree + 1
     #indegree_distribution_values = convert_nodes_degree_to_degree_counts(map_degree_nodes_indegree)
     #outdegree_distribution_values = convert_nodes_degree_to_degree_counts(map_degree_nodes_outdegree)
+    #print(map_degree_nodes)
+    sorted_by_value_degree_values = sorted(map_degree_nodes.items(), key=lambda kv: kv[1] , reverse=True)
+
     degree_distribution_values = convert_nodes_degree_to_degree_counts(map_degree_nodes)
+    print_barrier(file_to_write)
+    write_string_to_file(file_to_write , "Task II")
+    write_string_to_file(file_to_write, "Top 2 central nodes : " + str(sorted_by_value_degree_values[0][0]) + " , " + str(sorted_by_value_degree_values[1][0]))
+    print_barrier(file_to_write)
+
     #print(degree_distribution_values)
     plot_histogram(degree_distribution_values , True , output_plot_dir+"problem_1_task_2.png")
     #print(indegree_distribution_values)
@@ -297,7 +305,7 @@ def carry_out_works(graph):
     #print(degree_centrality)
     edge_centrality = calculate_edge_centrality(g)
     #print(edge_centrality)
-    print_beautifully(edge_centrality , 'Edge Centrality' , 'Edge' , 'Centrality' , True , file_to_write , "map")
+    print_beautifully(edge_centrality , 'Task III : Edge Centrality' , 'Edge' , 'Centrality' , True , file_to_write , "map")
     x = [(k, edge_centrality[k]) for k in sorted(edge_centrality, key=edge_centrality.get)]
     #print(x)
     most_central_edge = get_most_central_edge(edge_centrality)
@@ -308,9 +316,14 @@ def carry_out_works(graph):
     adjacency_matrix = create_adjacency_matrix(g)
     #print(adjacency_matrix)
     laplacian_matrix = create_laplacian_matrix(adjacency_matrix , create_degree_matrix(g , map_degree_nodes))
+    print_vspace(file_to_write)
+    print_barrier(file_to_write)
+    write_string_to_file(file_to_write , "Task IV")
+    print_barrier(file_to_write)
     print_beautifully_matrix(laplacian_matrix , file_to_write , "Laplacian matrix")
     #print(laplacian_matrix)
     normalized_laplacian_matrix = create_normalized_laplacian_matrix(map_degree_nodes , adjacency_matrix)
+    print_barrier(file_to_write)
     print_beautifully_matrix(normalized_laplacian_matrix , file_to_write , "Normalized Laplacian matrix")
     #print(normalized_laplacian_matrix)
     #eigen_values = find_eigen_values(laplacian_matrix)
@@ -323,11 +336,14 @@ def carry_out_works(graph):
     no_of_complex_entries = check_complex(eigen_values_my)
     print_barrier(file_to_write)
     if no_of_complex_entries == 0 :
-        file_to_write.write("No Complex Eigen Values found\n")
-    else : 
-        file_to_write.write(str(no_of_complex_entries) + "Complex Eigen Values found\n")
+        write_string_to_file(file_to_write , "No Complex Eigen Values found")
+        #file_to_write.write("No Complex Eigen Values found\n")
+    else :
+        write_string_to_file(file_to_write, str(no_of_complex_entries) + "Complex Eigen Values found")
+        #file_to_write.write(str(no_of_complex_entries) + "Complex Eigen Values found\n")
     print_barrier(file_to_write)
     print_beautifully(eigen_values_my , 'Eigen Values' , '' , '' , True , file_to_write , "list")
+    print_barrier(file_to_write)
     print_beautifully(eigen_vector_my , 'Eigen Vectors' , '' , '' , True , file_to_write , "list_of_list")
     
     eigen_value_map , eigen_vector_map = create_eigen_value_eigen_matrix_pair(eigen_values_my , eigen_vector_my)
@@ -336,9 +352,13 @@ def carry_out_works(graph):
     min_eigen_vector = eigen_vector_map[min_eigen_val[0]]
     second_min_eigen_val = eigen_value_map_sorted[1]
     second_min_eigen_vector = eigen_vector_map[second_min_eigen_val[0]]
+    print_barrier(file_to_write)
     print_beautifully(min_eigen_val[1] , 'Min Eigen Value' , '' , '' , True , file_to_write , "string")
+    print_barrier(file_to_write)
     print_beautifully(min_eigen_vector , 'Min Eigen Vector' , '' , '' , True , file_to_write , "list")
+    print_barrier(file_to_write)
     print_beautifully(second_min_eigen_val[1] , 'Second Min Eigen Value' , '' , '' , True , file_to_write , "string")
+    print_barrier(file_to_write)
     print_beautifully(second_min_eigen_vector , 'Second Min Eigen Vector' , '' , '' , True , file_to_write , "list")
     
     # print(min_eigen_val)

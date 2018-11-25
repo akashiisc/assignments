@@ -1,7 +1,7 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6730 64-bit) (preloaded format=pdflatex 2018.8.7)  27 SEP 2018 21:26
+This is pdfTeX, Version 3.14159265-2.6-1.40.19 (MiKTeX 2.9.6730 64-bit) (preloaded format=pdflatex 2018.8.7)  25 NOV 2018 21:08
 entering extended mode
-**./samplepaper.tex
-(samplepaper.tex
+**./report2.tex
+(report2.tex
 LaTeX2e <2018-04-01> patch level 5
 (llncs.cls
 Document Class: llncs 2018/03/10 v2.20 
@@ -172,8 +172,8 @@ Package: longtable 2014/10/28 v4.11 Multi-page Table package (DPC)
 \c@LT@tables=\count120
 \c@LT@chunks=\count121
 \LT@p@ftn=\toks19
-) (samplepaper.aux)
-\openout1 = `samplepaper.aux'.
+) (report2.aux)
+\openout1 = `report2.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 17.
 LaTeX Font Info:    ... okay on input line 17.
@@ -187,6 +187,7 @@ LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 17.
 LaTeX Font Info:    ... okay on input line 17.
 LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 17.
 LaTeX Font Info:    ... okay on input line 17.
+
 ("C:\Program Files\MiKTeX 2.9\tex\context\base\supp-pdf.mkii"
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count122
@@ -256,74 +257,94 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <7> on input line 35.
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <5> on input line 35.
+<./images/problem_1_task_1.png, id=1, 462.528pt x 346.896pt>
+File: ./images/problem_1_task_1.png Graphic file (type png)
+<use ./images/problem_1_task_1.png>
+Package pdftex.def Info: ./images/problem_1_task_1.png  used on input line 43.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+<./images/problem_1_task_6.png, id=3, 462.528pt x 346.896pt>
+File: ./images/problem_1_task_6.png Graphic file (type png)
+<use ./images/problem_1_task_6.png>
+Package pdftex.def Info: ./images/problem_1_task_6.png  used on input line 60.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+ [1
 
-Underfull \hbox (badness 7151) in paragraph at lines 51--51
-\OT1/cmr/m/n/10 Numpy im-ple-
+{C:/Users/Akash/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map} <./images/pr
+oblem_1_task_1.png>]
+<./images/problem_1_bonus_1.png, id=18, 462.528pt x 346.896pt>
+File: ./images/problem_1_bonus_1.png Graphic file (type png)
+<use ./images/problem_1_bonus_1.png>
+Package pdftex.def Info: ./images/problem_1_bonus_1.png  used on input line 66.
+
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+ [2 <./images/problem_1_task_6.png> <./images/problem_1_bonus_1.png>]
+<./images/problem_1_bonus_3.png, id=24, 462.528pt x 346.896pt>
+File: ./images/problem_1_bonus_3.png Graphic file (type png)
+<use ./images/problem_1_bonus_3.png>
+Package pdftex.def Info: ./images/problem_1_bonus_3.png  used on input line 76.
+
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+
+Underfull \vbox (badness 10000) detected at line 106
  []
 
+[3 <./images/problem_1_bonus_3.png>] [4] [5] [6]
+<./images/k-n-accuracy.png, id=39, 462.528pt x 346.896pt>
+File: ./images/k-n-accuracy.png Graphic file (type png)
+<use ./images/k-n-accuracy.png>
+Package pdftex.def Info: ./images/k-n-accuracy.png  used on input line 260.
+(pdftex.def)             Requested size: 370.02289pt x 277.51717pt.
 
-Underfull \hbox (badness 5563) in paragraph at lines 51--52
-\OT1/cmr/m/n/10 my Im-ple-men-
- []
-
-
-Underfull \vbox (badness 10000) detected at line 72
- []
-
-[1
-
-{C:/Users/Akash/AppData/Local/MiKTeX/2.9/pdftex/config/pdftex.map}] [2]
-<./images/profiling.png, id=15, 517.43312pt x 188.705pt>
-File: ./images/profiling.png Graphic file (type png)
-<use ./images/profiling.png>
-Package pdftex.def Info: ./images/profiling.png  used on input line 152.
-(pdftex.def)             Requested size: 413.94704pt x 150.96419pt.
-
-Overfull \hbox (81.8235pt too wide) in paragraph at lines 152--155
-[][]
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 152--155
-
+Overfull \hbox (22.89935pt too wide) in paragraph at lines 260--263
+[]
  []
 
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
- [3]
-Underfull \hbox (badness 10000) in paragraph at lines 180--185
+ [7]
+<./images/problem_2_bonus_1.png, id=44, 462.528pt x 346.896pt>
+File: ./images/problem_2_bonus_1.png Graphic file (type png)
+<use ./images/problem_2_bonus_1.png>
+Package pdftex.def Info: ./images/problem_2_bonus_1.png  used on input line 266
+.
+(pdftex.def)             Requested size: 370.02289pt x 277.51717pt.
 
+Overfull \hbox (22.89935pt too wide) in paragraph at lines 265--268
+[] 
  []
 
-[4 <./images/profiling.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 201--202
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+ [8 <./images/k-n-accuracy.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 282--283
 []\OT1/cmr/m/n/9 https://stackoverflow.com/questions/16569613/how-does-numpy-li
 nalg-inv-
  []
 
-[5] (samplepaper.aux) ) 
+[9 <./images/problem_2_bonus_1.png>] (report2.aux) ) 
 Here is how much of TeX's memory you used:
- 1936 strings out of 492973
- 26600 string characters out of 3135933
- 126995 words of memory out of 3000000
- 5805 multiletter control sequences out of 15000+200000
+ 1961 strings out of 492973
+ 27365 string characters out of 3135933
+ 128995 words of memory out of 3000000
+ 5825 multiletter control sequences out of 15000+200000
  5624 words of font info for 21 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 41i,5n,25p,339b,247s stack positions out of 5000i,500n,10000p,200000b,50000s
-<C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts
-/cm/cmbx10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmbx
-12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi10.pfb><
-C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmmi7.pfb><C:/Progra
-m Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr10.pfb><C:/Program Files/M
-iKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Program Files/MiKTeX 2.9/
-fonts/type1/public/amsfonts/cm/cmr9.pfb><C:/Program Files/MiKTeX 2.9/fonts/type
-1/public/amsfonts/cm/cmsy10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public
-/amsfonts/cm/cmsy7.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts
-/cm/cmtt9.pfb>
-Output written on samplepaper.pdf (5 pages, 168130 bytes).
+ 41i,5n,25p,350b,252s stack positions out of 5000i,500n,10000p,200000b,50000s
+<C:/Program Files/MiKTeX 2.
+9/fonts/type1/public/amsfonts/cm/cmbx10.pfb><C:/Program Files/MiKTeX 2.9/fonts/
+type1/public/amsfonts/cm/cmbx12.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/pu
+blic/amsfonts/cm/cmmi10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/ams
+fonts/cm/cmmi7.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/
+cmr10.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr7.pfb>
+<C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmr9.pfb><C:/Progra
+m Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Program Files/
+MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy7.pfb><C:/Program Files/MiKTeX 2.
+9/fonts/type1/public/amsfonts/cm/cmtt9.pfb>
+Output written on report2.pdf (9 pages, 408263 bytes).
 PDF statistics:
- 61 PDF objects out of 1000 (max. 8388607)
+ 85 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 6 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 31 words of extra memory for PDF output out of 10000 (max. 10000000)
 

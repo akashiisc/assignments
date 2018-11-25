@@ -171,10 +171,9 @@ if len(arguments) == 3 :
     else :
         print("Unknown Input")
         exit(1)
-exit()
 
 file_name = sys.argv[1]
-#output_plot_dir = "./output_plots/"
+output_plot_dir = "./output_plots/"
 output_file_path = "./output_data/output_problem2.txt"
 file_to_write = open(output_file_path , 'w')
 matrix , label_matrix = parse_file(file_name)
@@ -195,13 +194,23 @@ print(count_of_repeating_eigen_values)
 sorted_eigen_vectors = sort_eigen_vectors_corresponding_to_sorted_eigen_values(unique_eigen_values_with_counts , eigen_vectors)
 
 reconstruction_error_map = {}
-for i in range(2, 10) :
+for i in range(1, 10 , 1) :
+    top_m_eigen_vectors = take_first_n_columns(sorted_eigen_vectors , i)
+    reduced_dimention_matrix = opr_multiply(matrix , top_m_eigen_vectors)
+    if i == 2:
+        plot_scatter_graph(reduced_dimention_matrix , label_matrix , True , output_plot_dir+"problem_2_bonus_1.png" )
+    appended_matrix = append_m_columns(reduced_dimention_matrix , len(matrix[0])-i)
+    reconstruction_error = calculate_reconstruction_error( matrix, appended_matrix)
+    reconstruction_error_map[i] = reconstruction_error
+
+for i in range(10, 500 , 10) :
     top_m_eigen_vectors = take_first_n_columns(sorted_eigen_vectors , i)
     reduced_dimention_matrix = opr_multiply(matrix , top_m_eigen_vectors)
     appended_matrix = append_m_columns(reduced_dimention_matrix , len(matrix[0])-i)
     reconstruction_error = calculate_reconstruction_error( matrix, appended_matrix)
     reconstruction_error_map[i] = reconstruction_error
 
+task_plot_graph(reconstruction_error_map , True ,  output_plot_dir+"problem_2_task_5.png" , "Dimension" , "Reconstruction error"  , "Reconstrunction error")
 print_barrier(file_to_write)
 print_beautifully(reconstruction_error_map , "Reconstruction Error" , "Dimentionality Reduction" , "Reconstruction error" , True , file_to_write , "map")
 print_barrier(file_to_write)
@@ -217,7 +226,7 @@ print(len(converted_mean_vector_to_matrix[0]))
 converted_minus_mean_matrix = opr_subtract(matrix , converted_mean_vector_to_matrix)
 print(len(converted_minus_mean_matrix))
 
-
+'''
 
 ############################################################################################
 #                                                                                          #          
@@ -230,19 +239,21 @@ print(len(converted_minus_mean_matrix))
 
 print_barrier(file_to_write)
 
-m_values = range(1,5)
-k_values = range(5,20,5)
-
+# m_values = range(20,30)
+# k_values = [1,3,5,10,15,20]
+m_values = range(30,35)
+k_values = [1,3]
 for m in m_values:
     top_m_eigen_vectors = take_first_n_columns(sorted_eigen_vectors , m)
     reduced_dimention_matrix = opr_multiply(matrix , top_m_eigen_vectors)
     reduced_dimention_matrix = np.array(reduced_dimention_matrix).real
     mean_vector_of_reduced = find_mean_vector(reduced_dimention_matrix)
+
     converted_mean_vector_to_matrix = []
     for j in range(len(matrix)):
         a = copy(mean_vector_of_reduced)
         converted_mean_vector_to_matrix.append(a)
-
+    converted_minus_mean_matrix = opr_subtract(reduced_dimention_matrix, converted_mean_vector_to_matrix)
     correctness_difference_vector = {}
     for k in k_values:
         correctness_difference_vector[k] = []
@@ -263,10 +274,10 @@ for m in m_values:
         print( str(m) + "," + str(k) + "," + str(accuracy))
 
 print_barrier(file_to_write)
-
+'''
 ############################################################################################
 #                                                                                          #          
-#                  K-NN Code Skilearn                                                      #
+#                  K-NN Code Sklearn                                                      #
 #                                                                                          #
 ############################################################################################
 # First doing it for complete data without reduction                                       #
@@ -275,8 +286,8 @@ print_barrier(file_to_write)
 
 print_barrier(file_to_write)
 
-m_values = range(10,50)
-k_values = range(5,20,5)
+m_values = range(1,50)
+k_values = [1,3,5,10,15,20]
 
 for m in m_values:
     top_m_eigen_vectors = take_first_n_columns(sorted_eigen_vectors , m)
