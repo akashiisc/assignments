@@ -9,6 +9,22 @@ def write_string_to_file(filePath , string_value):
 	filePath.write(string_value+ "\n")
 	print(string_value+ "\n")
 
+def print_beautifully_wo_barrier(values_map , heading , Column1Heading , Column2Heading , write_to_file , filePath , type):
+	if(heading !="") :
+		filePath.write(heading + "\n")
+	if type == "list_of_list":
+		for i in range(len(values_map)):
+			filePath.write(" ".join([str(g) for g in values_map[i]]))
+			print(" ".join([str(g) for g in values_map[i]]))
+			filePath.write("\n")
+			#print("\n")
+	elif type == "string":
+		filePath.write(str(values_map))
+		print(str(values_map))
+		filePath.write("\n")
+		print("\n")
+	
+
 def print_beautifully(values_map , heading , Column1Heading , Column2Heading , write_to_file , filePath , type):
 	filePath.write(heading + "\n")
 	print(heading)
